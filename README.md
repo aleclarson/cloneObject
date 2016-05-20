@@ -8,7 +8,8 @@ cloneObject = require "cloneObject"
 clone = cloneObject obj
 
 # Recursive cloning.
-clone = cloneObject obj, yes
+clone = cloneObject obj, { recursive: yes }
 ```
 
-**NOTE:** Objects created with `Object.create(null)` are not traversed or cloned!
+**NOTE:** As a safety precaution, objects created with `Object.create(null)`
+are only cloned if you pass them directly to `cloneObject`!

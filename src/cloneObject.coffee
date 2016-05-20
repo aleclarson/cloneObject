@@ -1,29 +1,44 @@
 
+PureObject = require "PureObject"
 assertType = require "assertType"
 isType = require "isType"
 
-module.exports =
-cloneObject = (obj, isDeep = no) ->
+module.exports = (obj, options = {}) ->
 
-  assertType obj, Object
-  assertType isDeep, Boolean
+  assertType options, Object
 
-  clone = {}
+  if isType obj, Object
+    clone = {}
 
-  if isDeep
-    deepMerge clone, obj
-  else shallowMerge clone, obj
+  else if PureObject.test obj
+    clone = Object.create null
+
+  else
+    throw TypeError "Expected an Object or PureObject!"
+
+  if options.recursive
+    mergeDeep clone, obj
+
+  else
+    mergeShallow clone, obj
 
   return clone
 
-deepMerge = (clone, obj) ->
+mergeDeep = (clone, obj) ->
+
   for key, value of obj
+
     if isType value, Object
-      clone[key] = deepMerge {}, value
-    else clone[key] = value
+      clone[key] = mergeDeep {}, value
+
+    else
+      clone[key] = value
+
   return clone
 
-shallowMerge = (clone, obj) ->
+mergeShallow = (clone, obj) ->
+
   for key, value of obj
     clone[key] = value
+
   return clone

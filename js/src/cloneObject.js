@@ -1,31 +1,38 @@
-var assertType, cloneObject, deepMerge, isType, shallowMerge;
+var PureObject, assertType, isType, mergeDeep, mergeShallow;
+
+PureObject = require("PureObject");
 
 assertType = require("assertType");
 
 isType = require("isType");
 
-module.exports = cloneObject = function(obj, isDeep) {
+module.exports = function(obj, options) {
   var clone;
-  if (isDeep == null) {
-    isDeep = false;
+  if (options == null) {
+    options = {};
   }
-  assertType(obj, Object);
-  assertType(isDeep, Boolean);
-  clone = {};
-  if (isDeep) {
-    deepMerge(clone, obj);
+  assertType(options, Object);
+  if (isType(obj, Object)) {
+    clone = {};
+  } else if (PureObject.test(obj)) {
+    clone = Object.create(null);
   } else {
-    shallowMerge(clone, obj);
+    throw TypeError("Expected an Object or PureObject!");
+  }
+  if (options.recursive) {
+    mergeDeep(clone, obj);
+  } else {
+    mergeShallow(clone, obj);
   }
   return clone;
 };
 
-deepMerge = function(clone, obj) {
+mergeDeep = function(clone, obj) {
   var key, value;
   for (key in obj) {
     value = obj[key];
     if (isType(value, Object)) {
-      clone[key] = deepMerge({}, value);
+      clone[key] = mergeDeep({}, value);
     } else {
       clone[key] = value;
     }
@@ -33,7 +40,7 @@ deepMerge = function(clone, obj) {
   return clone;
 };
 
-shallowMerge = function(clone, obj) {
+mergeShallow = function(clone, obj) {
   var key, value;
   for (key in obj) {
     value = obj[key];

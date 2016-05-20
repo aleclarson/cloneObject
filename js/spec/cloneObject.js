@@ -14,7 +14,7 @@ describe("cloneObject()", function() {
     clone = cloneObject(obj);
     return expect(clone.b).toBe(obj.b);
   });
-  return it("can clone deeply if desired", function() {
+  return it("can clone recursively if desired", function() {
     var clone, obj;
     obj = {
       a: 1,
@@ -22,7 +22,9 @@ describe("cloneObject()", function() {
         c: 1
       }
     };
-    clone = cloneObject(obj, true);
+    clone = cloneObject(obj, {
+      recursive: true
+    });
     return expect(clone.b).not.toBe(obj.b);
   });
 });

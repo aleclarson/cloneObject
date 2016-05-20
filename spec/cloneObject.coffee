@@ -9,8 +9,8 @@ describe "cloneObject()", ->
     expect clone.b
       .toBe obj.b
 
-  it "can clone deeply if desired", ->
+  it "can clone recursively if desired", ->
     obj = a: 1, b: { c: 1 }
-    clone = cloneObject obj, yes
+    clone = cloneObject obj, { recursive: yes }
     expect clone.b
       .not.toBe obj.b
