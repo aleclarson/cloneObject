@@ -1,20 +1,17 @@
 
+isConstructor = require "isConstructor"
 PureObject = require "PureObject"
 assertType = require "assertType"
-isType = require "isType"
 
 module.exports = (obj, options = {}) ->
 
+  assertType obj, [ Object, PureObject ]
   assertType options, Object
 
-  if isType obj, Object
+  if isConstructor obj, Object
     clone = {}
-
-  else if PureObject.test obj
-    clone = Object.create null
-
   else
-    throw TypeError "Expected an Object or PureObject!"
+    clone = Object.create null
 
   if options.recursive
     mergeDeep clone, obj
@@ -28,7 +25,7 @@ mergeDeep = (clone, obj) ->
 
   for key, value of obj
 
-    if isType value, Object
+    if isConstructor value, Object
       clone[key] = mergeDeep {}, value
 
     else

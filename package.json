@@ -5,7 +5,7 @@
   "dependencies": {
     "PureObject": "aleclarson/PureObject#1.0.0",
     "assertType": "aleclarson/assertType#1.0.0",
-    "isType": "aleclarson/isType#1.0.0"
+    "isConstructor": "aleclarson/isConstructor#1.0.0"
   },
   "lotus": {
     "plugins": [
