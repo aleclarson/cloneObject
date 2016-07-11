@@ -1,10 +1,10 @@
-var PureObject, assertType, isConstructor, mergeDeep, mergeShallow;
-
-isConstructor = require("isConstructor");
+var PureObject, assertType, isType, mergeDeep, mergeShallow;
 
 PureObject = require("PureObject");
 
 assertType = require("assertType");
+
+isType = require("isType");
 
 module.exports = function(obj, options) {
   var clone;
@@ -13,24 +13,18 @@ module.exports = function(obj, options) {
   }
   assertType(obj, [Object, PureObject]);
   assertType(options, Object);
-  if (isConstructor(obj, Object)) {
-    clone = {};
-  } else {
-    clone = Object.create(null);
-  }
+  clone = isType(obj, Object) ? {} : Object.create(null);
   if (options.recursive) {
-    mergeDeep(clone, obj);
-  } else {
-    mergeShallow(clone, obj);
+    return mergeDeep(clone, obj);
   }
-  return clone;
+  return mergeShallow(clone, obj);
 };
 
 mergeDeep = function(clone, obj) {
   var key, value;
   for (key in obj) {
     value = obj[key];
-    if (isConstructor(value, Object)) {
+    if (isType(value, Object)) {
       clone[key] = mergeDeep({}, value);
     } else {
       clone[key] = value;
@@ -48,4 +42,4 @@ mergeShallow = function(clone, obj) {
   return clone;
 };
 
-//# sourceMappingURL=../../map/src/cloneObject.map
+//# sourceMappingURL=map/cloneObject.map
