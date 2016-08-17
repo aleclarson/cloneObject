@@ -2,10 +2,13 @@
 PureObject = require "PureObject"
 assertType = require "assertType"
 isType = require "isType"
+Typle = require "Typle"
+
+Objectlike = Typle [ Object, PureObject ]
 
 module.exports = (obj, options = {}) ->
 
-  assertType obj, [ Object, PureObject ]
+  assertType obj, Objectlike
   assertType options, Object
 
   clone =

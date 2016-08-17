@@ -1,4 +1,4 @@
-var PureObject, assertType, isType, mergeDeep, mergeShallow;
+var Objectlike, PureObject, Typle, assertType, isType, mergeDeep, mergeShallow;
 
 PureObject = require("PureObject");
 
@@ -6,12 +6,16 @@ assertType = require("assertType");
 
 isType = require("isType");
 
+Typle = require("Typle");
+
+Objectlike = Typle([Object, PureObject]);
+
 module.exports = function(obj, options) {
   var clone;
   if (options == null) {
     options = {};
   }
-  assertType(obj, [Object, PureObject]);
+  assertType(obj, Objectlike);
   assertType(options, Object);
   clone = isType(obj, Object) ? {} : Object.create(null);
   if (options.recursive) {
