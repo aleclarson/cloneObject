@@ -1,0 +1,11 @@
+{
+  "name": "cloneObject",
+  "version": "1.0.1",
+  "main": "js/cloneObject",
+  "dependencies": {
+    "PureObject": "aleclarson/PureObject#1.0.1",
+    "Typle": "aleclarson/Typle#1.0.1",
+    "assertType": "aleclarson/assertType#2.0.1",
+    "isType": "aleclarson/isType#1.0.1"
+  }
+}
