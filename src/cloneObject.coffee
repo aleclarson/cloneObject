@@ -1,14 +1,14 @@
 
 PureObject = require "PureObject"
 assertType = require "assertType"
+Either = require "Either"
 isType = require "isType"
-Typle = require "Typle"
 
-Objectlike = Typle [ Object, PureObject ]
+Cloneable = Either(Object, PureObject)
 
 module.exports = (obj, options = {}) ->
 
-  assertType obj, Objectlike
+  assertType obj, Cloneable
   assertType options, Object
 
   clone =
