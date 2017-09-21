@@ -1,6 +1,6 @@
 {
   "name": "cloneObject",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "main": "js/cloneObject",
   "plugins": [
     "lotus-coffee"
