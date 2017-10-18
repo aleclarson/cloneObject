@@ -1,39 +1,31 @@
 
-PureObject = require "PureObject"
-assertType = require "assertType"
-Either = require "Either"
-isType = require "isType"
+assertValid = require "assertValid"
 
-Cloneable = Either(Object, PureObject)
-
-module.exports =
-cloneObject = (obj, options = {}) ->
-
-  assertType obj, Cloneable
-  assertType options, Object
+cloneObject = (obj, recursive) ->
+  assertValid obj, "object"
+  assertValid recursive, "boolean?"
 
   clone =
-    if isType obj, Object
+    if obj.constructor isnt null
     then {}
     else Object.create null
 
-  if options.recursive
-  then mergeDeep clone, obj
-  else mergeShallow clone, obj
+  if recursive
+  then recursiveClone clone, obj
+  else Object.assign clone, obj
 
-mergeDeep = (clone, obj) ->
+module.exports = cloneObject
+
+#
+# Internal
+#
+
+recursiveClone = (clone, obj) ->
 
   for key, value of obj
     clone[key] =
-      if isType value, Object
-      then mergeDeep {}, value
+      if value and value.constructor is Object
+      then recursiveClone {}, value
       else value
-
-  return clone
-
-mergeShallow = (clone, obj) ->
-
-  for key, value of obj
-    clone[key] = value
 
   return clone
